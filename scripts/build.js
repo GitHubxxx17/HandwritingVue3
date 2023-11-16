@@ -8,7 +8,9 @@ const dirs = readdirSync("packages").filter((p) => {
 //对每个包进行打包
 async function build(target) {
   // execa -c执行rollup配置，环境变量 -env
-  await execa("rollup", ["-c", "--environment", `TARGET:${target}`]);
+  await execa("rollup", ["-c", "--environment", `TARGET:${target}`], {
+    stdio: "inherit", //子进程输出到分包
+  });
 }
 
 //并行打包
