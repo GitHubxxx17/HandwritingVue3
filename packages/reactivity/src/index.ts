@@ -1,7 +1,8 @@
-import b from "@vue/shared";
-const a = 1;
-const c = 2;
-export default {
-  a,
-  c,
-};
+export {
+  reactive,
+  shallowReactive,
+  readonly,
+  shallowReadonly,
+} from "./reactive";
+
+export { effect } from "./effect";
