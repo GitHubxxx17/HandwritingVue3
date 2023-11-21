@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script src="../reactivity/dist/reactivity.global.js"></script>
+    <script>
+      const { ref, effect, toRef, reactive, toRefs } = Vuereactivity;
+      const state = reactive({ foo: 1, bar: 2 });
+      const app = document.querySelector("#app");
+      const { foo, bar } = toRefs(state);
+      effect(() => {
+        app.innerHTML = state.foo;
+      });
+      document.addEventListener("click", () => {
+        foo.value++;
+        bar.value++;
+      });
+    </script>
+  </body>
+</html>

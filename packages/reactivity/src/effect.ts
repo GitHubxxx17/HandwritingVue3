@@ -127,12 +127,12 @@ export function trigger(
         }
     }
   }
-  // // 执行
-  // effectSet.forEach((effect: any) => {
-  //   if (effect.options.sch) {
-  //     effect.options.sch(effect);
-  //   } else {
-  //     effect();
-  //   }
-  // });
+  // 执行
+  effectSet.forEach((effect: any) => {
+    if (effect.options.sch) {
+      effect.options.sch(effect);
+    } else {
+      effect();
+    }
+  });
 }
