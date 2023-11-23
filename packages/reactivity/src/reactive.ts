@@ -41,9 +41,8 @@ function createReactObj(target: any, isReadonly: boolean, baseHandlers: any) {
   //代理数据
   const proxyMap = isReadonly ? readonlyMap : reactiveMap;
   //判断该对象是否被代理
-  const proxyEs = proxyMap.get(target);
-  if (proxyEs) {
-    return proxyEs;
+  if (proxyMap.has(target)) {
+    return proxyMap.get(target);
   }
   //代理对象
   const proxy = new Proxy(target, baseHandlers);

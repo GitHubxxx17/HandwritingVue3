@@ -2,8 +2,8 @@ import { isArray, isIntegerKey, isString } from "@vue/shared";
 import { TrackOpTypes, TriggerOpTypes } from "./oprations";
 
 let uid = 0; //effect id参数
-let activeEffect: any = null; //保存effect函数
-let effectStack: Function[] = []; //effect依赖函数栈
+let activeEffect: any = undefined; //保存effect函数
+let effectStack: Function[] = []; //effect依赖函数栈 解决嵌套effect问题
 /**
  *
  * @param {Function} fn 用户传过来的函数
@@ -17,7 +17,7 @@ function createReactEffect(fn: Function, options: any) {
       try {
         effectStack.push(effect);
         activeEffect = effect;
-        fn(); //执行用户的方法
+        return fn(); //执行用户的方法
       } finally {
         effectStack.pop();
         activeEffect = effectStack.at(-1);
@@ -53,7 +53,7 @@ let targetMap = new WeakMap(); //代理对象结构表
  * @export
  * @param {*} target 目标代理对象
  * @param {TrackOpTypes} type 类型
- * @param {string} key 属性
+ * @param {string} key 属性8
  */
 export function Track(target: any, type: TrackOpTypes, key: string) {
   //没有在effect函数中读取代理对象的属性
@@ -72,7 +72,6 @@ export function Track(target: any, type: TrackOpTypes, key: string) {
   if (!dep.has(activeEffect)) {
     dep.add(activeEffect);
   }
-  // console.log(targetMap);
 }
 
 /**
@@ -129,10 +128,6 @@ export function trigger(
   }
   // 执行
   effectSet.forEach((effect: any) => {
-    if (effect.options.sch) {
-      effect.options.sch(effect);
-    } else {
-      effect();
-    }
+    effect.options.sch ? effect.options.sch() : effect();
   });
 }

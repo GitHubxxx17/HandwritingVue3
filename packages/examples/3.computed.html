@@ -7,25 +7,18 @@
   </head>
   <body>
     <div id="app"></div>
-
     <script src="../reactivity/dist/reactivity.global.js"></script>
-
     <script>
-      const { reactive, readonly, effect } = Vuereactivity;
-      const state = reactive({
-        name: "hhh",
-        a: 12,
-        b: 10,
-        list: [1, 2, 3, 4],
-        c: { e: 3 },
-      });
+      const { reactive, computed, effect } = Vuereactivity;
+      const state = reactive({ foo: 1, bar: 2 });
       const app = document.querySelector("#app");
-      effect(() => {
-        app.innerHTML = state.list + state.c.f;
+      const foo2 = computed(() => {
+        console.log("6");
+        return state.foo + 1;
       });
       document.addEventListener("click", () => {
-        state.list.push(5);
-        state.c.f = 3;
+        console.log(state.foo++);
+        console.log(foo2.value, state.foo);
       });
     </script>
   </body>
