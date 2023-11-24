@@ -1,5 +1,7 @@
 //公共方法
 
+export { ShapeFlags } from "./shapeFlag";
+
 /**判断目标是否为对象
  * @export
  * @param {*} target 目标

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="app">100</div>
+    <script src="../runtime-dom/dist/runtime-dom.global.js"></script>
+    <script>
+      const { createApp, h } = VueRuntimeDom;
+      console.log(createApp);
+      let app = {
+        setup(props, ctx) {
+          console.log("setup", props, ctx);
+          return (proxy) => {
+            return h("div", { style: { color: "red" } }, "21312", "sadasd");
+          };
+        },
+        render(proxy) {
+          console.log("app", this == proxy);
+        },
+      };
+      createApp(app, { name: "张三", age: 20 }).mount("#app");
+    </script>
+  </body>
+</html>
