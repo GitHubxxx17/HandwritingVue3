@@ -9,17 +9,44 @@
     <div id="app">100</div>
     <script src="../runtime-dom/dist/runtime-dom.global.js"></script>
     <script>
-      const { createApp, h } = VueRuntimeDom;
-      console.log(createApp);
+      const { createApp, h, reactive } = VueRuntimeDom;
       let app = {
         setup(props, ctx) {
           console.log("setup", props, ctx);
-          return (proxy) => {
-            return h("div", { style: { color: "red" } }, "21312", "sadasd");
+          let state = reactive({ a: "张三", flag: false, b: "李四" });
+          const click = () => {
+            state.a = "李四";
+          };
+          setTimeout(() => {
+            state.flag = true;
+          }, 1000);
+          return {
+            state,
+            click,
           };
         },
-        render(proxy) {
-          console.log("app", this == proxy);
+        render() {
+          if (this.state.flag) {
+            return h(
+              "div",
+              { style: { color: "red" } },
+              h("p", { key: "1" }, "1"),
+              h("p", { key: "3" }, "3"),
+              h("p", { key: "6" }, "6"),
+              h("p", { key: "5", style: { color: "blue" } }, "5"),
+              h("p", { key: "4" }, "4"),
+              h("p", { key: "2" }, "2")
+            );
+          } else {
+            return h(
+              "div",
+              { style: { color: "blue" } },
+              h("p", { key: "1" }, "1"),
+              h("p", { key: "5" }, "5"),
+              h("p", { key: "6" }, "6"),
+              h("p", { key: "2" }, "2")
+            );
+          }
         },
       };
       createApp(app, { name: "张三", age: 20 }).mount("#app");

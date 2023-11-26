@@ -64,3 +64,13 @@ const CVnode = (child: any): vnode => {
   if (isObject(child)) return child;
   return createVNode(TEXT, null, String(child));
 };
+
+export /**
+ * 判断两个虚拟dom是否相等
+ * @param {vnode} n1
+ * @param {vnode} n2
+ * @return {*}  {boolean}
+ */
+const isSameVNode = (n1: vnode, n2: vnode): boolean => {
+  return n1.type === n2.type && n1.key === n2.key;
+};

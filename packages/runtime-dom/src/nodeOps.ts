@@ -3,7 +3,7 @@ export const nodeOps = {
   createElement: (tagName: string) => document.createElement(tagName),
   //移除元素
   remove: (child: any) => {
-    let parent = child.parent;
+    let parent = child.parentNode;
     if (parent) {
       parent.removeChild(child);
     }

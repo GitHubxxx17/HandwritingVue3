@@ -7,7 +7,7 @@ export type vnode = {
   /** 组件配置 */
   props: any;
   /** 子节点 */
-  children: any;
+  children: vChildren[] | string | null;
   /** 组件标识 */
   key: string | number;
   /** 组件 */
@@ -42,4 +42,8 @@ export type instance = {
   children?: any;
   /** 插槽 */
   slots?: any;
+  /** 虚拟dom树*/
+  subTree?: vnode;
 };
+
+export type vChildren = vnode | string;

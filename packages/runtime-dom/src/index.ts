@@ -23,3 +23,4 @@ const createApp = (rootComponent: any, rootProps: any) => {
 };
 
 export { createApp, h };
+export * from "@vue/runtime-core";
