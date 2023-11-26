@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script src="../runtime-dom/dist/runtime-dom.global.js"></script>
+    <script>
+      const {
+        createApp,
+        h,
+        reactive,
+        onMounted,
+        onBeforeMount,
+        onBeforeUpdate,
+        onUpdated,
+      } = VueRuntimeDom;
+      let app = {
+        setup(props, ctx) {
+          console.log("setup", props, ctx);
+          let state = reactive({ a: "张三", flag: false, b: "李四" });
+          onMounted(() => {
+            console.log("onMounted");
+          });
+
+          onBeforeMount(() => {
+            console.log("onBeforeMount");
+          });
+
+          onBeforeUpdate(() => {
+            console.log("onBeforeUpdate");
+          });
+
+          onUpdated(() => {
+            console.log("onUpdated");
+          });
+
+          setTimeout(() => {
+            state.flag = true;
+          }, 1000);
+          return {
+            state,
+          };
+        },
+        render() {
+          if (this.state.flag) {
+            return h(
+              "div",
+              { style: { color: "red" } },
+              h("p", { key: "1" }, "1"),
+              h("p", { key: "3" }, "3"),
+              h("p", { key: "6" }, "6"),
+              h("p", { key: "5", style: { color: "blue" } }, "5"),
+              h("p", { key: "4" }, "4"),
+              h("p", { key: "2" }, "2")
+            );
+          } else {
+            return h(
+              "div",
+              { style: { color: "blue" } },
+              h("p", { key: "1" }, "1"),
+              h("p", { key: "5" }, "5"),
+              h("p", { key: "6" }, "6"),
+              h("p", { key: "2" }, "2")
+            );
+          }
+        },
+      };
+      createApp(app, { name: "张三", age: 20 }).mount("#app");
+    </script>
+  </body>
+</html>

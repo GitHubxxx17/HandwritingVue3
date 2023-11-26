@@ -1,3 +1,5 @@
+import { LifecycleHooks } from "../src/enums";
+
 /** 虚拟节点 */
 export type vnode = {
   /** 是否为虚拟dom */
@@ -44,6 +46,13 @@ export type instance = {
   slots?: any;
   /** 虚拟dom树*/
   subTree?: vnode;
-};
+  /** 生命周期*/
+  a?: any;
+} & ExtractLifecycleHooks<LifecycleHooks>;
 
 export type vChildren = vnode | string;
+
+//拓展生命周期类型
+type ExtractLifecycleHooks<T extends string> = {
+  [K in T]?: any;
+};

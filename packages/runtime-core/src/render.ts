@@ -4,6 +4,7 @@ import { createComponentInstance, setupComponent } from "./components";
 import { instance, vChildren, vnode } from "../types/global";
 import { effect } from "@vue/reactivity";
 import { CVnode, TEXT, isSameVNode } from "./vNode";
+import { invokeArrayFns } from "./apiLifecycle";
 
 //实现渲染
 export function createRender(renderOptionDom: any) {
@@ -433,17 +434,24 @@ export function createRender(renderOptionDom: any) {
     effect(function componentEffect() {
       //首次挂载
       if (!instance.isMounted) {
+        let { m, bm } = instance;
+        if (bm) invokeArrayFns(bm); //挂载前执行
         let proxy = instance.proxy;
         //执行组件的render，并执行返回的h函数，将h函数返回的vnode保存
         let subTree = (instance.subTree = instance.render.call(proxy, proxy));
         console.log(subTree);
         patch(null, subTree, container);
         instance.isMounted = true;
+        if (m) invokeArrayFns(m); //挂载后执行
       } else {
+        let { bu, u } = instance;
+        if (bu) invokeArrayFns(bu); //更新前执行
         let proxy = instance.proxy;
         let preTree = instance.subTree as vnode;
         let nextTree = (instance.subTree = instance.render.call(proxy, proxy));
+        //更新补丁
         patch(preTree, nextTree, container);
+        if (u) invokeArrayFns(u); //更新后执行
       }
     });
   };

@@ -41,6 +41,8 @@ const setupComponent = (instance: instance) => {
     setupStateComponent(instance);
   }
 };
+//全局实例
+export let currentInstance: instance | null;
 
 /**
  * 处理setup函数
@@ -55,7 +57,10 @@ function setupStateComponent(instance: instance) {
   //处理setup的参数
   if (setup) {
     let setupContext = createContext(instance);
+    //保存全局实例
+    currentInstance = instance;
     let setupResult = setup(instance.props, setupContext);
+    currentInstance = null;
     handleSetupResult(instance, setupResult);
   }
   finishComponentSetup(instance);
@@ -102,3 +107,11 @@ function finishComponentSetup(instance: instance) {
     instance.render = component.render;
   }
 }
+
+export const getCurrentInstance = () => {
+  return currentInstance;
+};
+
+export const setCurrentInstance = (target: instance | null) => {
+  currentInstance = target;
+};
